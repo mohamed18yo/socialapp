@@ -1,0 +1,78 @@
+@html.extend('layout', function(model) {
+  @html.block('content', function(model) {
+         <link rel="stylesheet" href="/css/style.css" />
+    <div class="chat-container">
+    <header class="chat-header">
+      
+     
+    </header>
+
+    <input type="hidden" id="chatId" value="@model.chatId"> 
+    
+    
+    <main class="chat-main">
+      <div class="chat-sidebar">
+             <div  class="thumbnail">
+             <input type="hidden" id="receivedId" value="@model.friendData.id">
+                    <img src="@model.friendData.picture" alt="Paris" width="60" height="60">
+                  <a href="/profile/@model.friendData.id"><p style="
+                  margin-left: 20$;
+                  margin-left: 65px;
+                  margin-top: 5px;
+                  ">@model.friendData.firstName @model.friendData.lastName</p></a>
+                <hr>
+                
+                 
+           </div>
+      </div>
+      <div class="chat-messages">
+      <ul >
+      @model.messages.forEach(function(msg){
+        if(String(@msg.sender) === String(@model.myId)){
+          <li style="float:right; background: #4343ca;color: white;border-style: solid;padding-left: 5px;padding-right: 5px;"> @msg.content <span></span></li><br>
+        }else{
+            
+            <li style="float:left;
+                    background: #e2e2ea;
+                    color: black;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                     ">@msg.content<span></span></li><br>
+        
+        }
+          
+            
+         
+       
+         
+        
+          
+      })
+      </ul>
+      </div>
+    </main>
+    <div class="chat-form-container" style="
+    height: 410px;
+    height: 80px;
+    padding-bottom: 0px;
+    ">
+     <div class="chat-form" style="
+    padding-left: 250px;
+">
+        <input id="msg" type="text" placeholder="Enter Message"  autocomplete="off" style="
+    width: 714px;
+    height: 44px;
+"/>
+        <button type="button" class="btn" id="sendBtn"><i class="fas fa-paper-plane"></i> Send</button>
+     </div>
+    </div>
+                     
+  </div>
+        
+       
+         <script src="/socket.io/socket.io.js"></script>
+         <script src="/js/sockets/init.js"></script>
+          <script src="/js/sockets/home.js"></script>
+        <script src="/js/sockets/chat.js"></script>
+  })
+})

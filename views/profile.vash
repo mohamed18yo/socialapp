@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>@model.title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body> 
+<input type="hidden" id="userId" value="@model.myId">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Logo</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/home">Home</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="/friends">Friends</a></li>
+                    
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group input-group">
+                        <input type="text" class="form-control" placeholder="Search..">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <div class="dropdown" style="
+                    
+                                                        margin-top: 8px;
+                                                        margin-right: 20px;
+                                                        ">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Friend Request
+                                </button>
+                           
+                             <div id="friendRequest" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                           
+                                      @if(model.friendReq.length === 0){
+                                        <span>No friend request</span>
+                                        }else{ 
+
+                                    @model.friendReq.forEach(function(itme){
+                                        <div  style="
+                width: 300px;
+                height: 70px;
+                background: #e8e8e8;
+                 margin-left:7px;
+                margin-bottom:5px;
+                                     " >
+
+              <img src="@itme.picture" alt="Paris" width="60" height="60" style="
+                margin-top: 5px;
+                margin-left: 5px;
+                                 ">
+            
+              <span > @itme.name</span>
+                  <a href="/profile/@itme.id"> <button class="btn btn-primary" style="float:right;margin-top: 20px;margin-right: 7px;">Profile</button></a>
+              </div>
+                                      
+                                    }) 
+                                     } 
+                                
+                                 </div>
+                        </div>
+                    </li>
+                    @* <a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a> *@
+                </ul>
+            </div>
+        </div>
+    </nav>
+        
+        <hr />
+        <div class="row">
+            <div class="col-sm-10">
+                <h1 style="
+                            margin-top: 0px;
+                            margin-bottom: 0px;
+                            margin-left: 100px;
+                ">Profile</h1>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-3">
+                <!-- left col -->
+
+                <div class="text-center">
+                    <img src="@model.User.picture"
+                            class="avatar rounded-circle img-thumbnail" alt="avatar" style="
+                                                                                            height: 250px;
+                                                                                            width: 250px;
+                                                                                            "/>
+                   
+                </div>
+                <br /><div style="hight:30px; width:100px;">
+                <h3 style="
+                            height: 35px;
+                            width: 200px;
+                            margin-top: 0px;
+                            margin-bottom: 0px;
+                            margin-left: 120px;
+                ">@model.User.firstName @model.User.lastName</h3>
+                </div>
+            @if(!model.isOwner){
+                <form method="POST" id="friend-form">
+                    <input type="hidden" id="myId" name="myId" value="@model.myId" >
+                    <input type="hidden" id="myName" name="myName" value="@model.myData.firstName @model.myData.lastName">
+                    <input type="hidden" id="myPicture" name="myPicture" value="@model.myData.picture" >
+                    <input type="hidden" id="friendId" name="friendId" value="@model.User._id" >
+                    <input type="hidden" id="friendImage" name="friendImage" value="@model.User.picture" >
+                    <input type="hidden" id="friendName" name="friendName" value="@model.User.firstName @model.User.lastName" >
+
+                    <div style="
+                                margin-left: 50px;
+                                margin-top: 0px;
+                                ">
+                    @if(model.isFriends ){
+                        <input type="submit" formaction="/friend/delete" value="Delete Friend" class="btn btn-danger">  
+                        
+                        <input type="submit" formaction="/chat/@model.User.friends.chatId" value="Chat" class="btn btn-success" style="
+                                                                                                        margin-left: 20px;
+                                                                                                        ">  
+                   
+                       }else if(model.isRquestSent){
+                         <input type="submit"  formaction="/friend/cancel" value="Cancel Request" class="btn btn-danger" style="
+                                margin-left: 50px;">
+                    }else if(model.isRquestReceve){
+                         <input type="submit"  formaction="/friend/accept" value="Accept Request" class="btn btn-success" style="
+                                                                                                                                    margin-right: 30px;
+                                                                                                                                ">
+                         <input type="submit"  formaction="/friend/reject" value="Reject" class="btn btn-danger">
+                          
+                    }else{
+                         <input id="addBtn" type="submit"   value="Add Friend" class="btn btn-success">
+                    }
+
+                    </div>
+               
+                </form>
+                 }
+            </div>
+            <!-- /col-3 -->
+            <div class="col-sm-9">
+              
+                <hr />
+            </div>
+            <!-- /tab-content -->
+        </div>
+          <script src="/socket.io/socket.io.js"></script>
+         <script src="/js/sockets/init.js"></script>
+           
+     @if(!model.isOwner && !model.isFriends && !model.isRquestSent && !model.isRquestReceve){
+       <script src="/js/sockets/friend.js"></script> 
+    } 
+</body>
+</html>

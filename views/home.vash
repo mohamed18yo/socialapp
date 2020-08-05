@@ -1,0 +1,67 @@
+@html.extend('layout', function(model) {
+  @html.block('content', function(model) {
+   
+      <input type="hidden" id="userId" value="@model.user.id">
+      <input type="hidden" id="picture" value="@model.user.picture">
+      <input type="hidden" id="name" value="@model.user.firstName">
+     
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-3 well">
+                <div class="well">
+                    <a href="/profile"><p>@model.user.firstName @model.user.lastName</p>
+
+                    <img src="@model.user.picture" class="img-circle" height="65" width="65" alt="Avatar"></a>
+                </div>
+                <div class="well">
+                    <p><a href="#">Interests</a></p>
+                    <p>
+                        <span class="label label-default">News</span>
+                        <span class="label label-primary">W3Schools</span>
+                        <span class="label label-success">Labels</span>
+                        <span class="label label-info">Football</span>
+                        <span class="label label-warning">Gaming</span>
+                        <span class="label label-danger">Friends</span>
+                    </p>
+                </div>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Twitter</a></p>
+                <p><a href="#">LinkedIn</a></p>
+            </div>
+
+            <div class="col-sm-7">
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default text-left">
+                            <div class="panel-body">
+                            
+                                <textarea  class="form-control" rows="5" id="body" required ></textarea>
+                                <br>
+                                <button type="submit" id="send" class="btn btn-default btn-lg">
+                                    <span class="glyphicon glyphicon-send"></span> Post
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              
+                
+            </div>
+            <div id ="onlineFriends" class="col-sm-2 well">
+                <h5>Online Friends</h5>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <p>Footer Text</p>
+    </footer>
+      
+         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="/js/sockets/chat.js"></script>
+  })
+})
+
